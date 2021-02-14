@@ -18,7 +18,7 @@ def email_check():
     unregistered_check_cases = ["burak.mutlu@gmail.com", "oguzhan.angin@gmail.com", "nursu.savaskan@gmail.com", "rabia.onal@gmail.com"]
     #registered_check_cases = ["", "",]
     email_input = driver.find_element_by_id("email")
-    for case in check_cases:
+    for case in invalid_check_cases:
         email_input.send_keys(case)
    
 
