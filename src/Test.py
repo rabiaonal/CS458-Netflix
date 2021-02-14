@@ -32,7 +32,7 @@ def email_check():
     
     #registered_check_cases = ["", "",]
     email_input = driver.find_element_by_id("email")
-    for case in check_cases:
+    for case in invalid_check_cases:
         email_input.send_keys(case)
    
 
