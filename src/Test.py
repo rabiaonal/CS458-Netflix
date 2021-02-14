@@ -1,4 +1,5 @@
 from os import getcwd
+from time import sleep
 from selenium import webdriver
 
 invalid_inputs = ["", "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"] #empty-string and 64+ character string
@@ -15,7 +16,6 @@ invalid_passwords = ["", "", ""]
 unregistered_passwords = ["invalidpassword1", "invalidpassword2", "invalidpassword3", "invalidpassword4"]
 registered_passwords = ["password1", "password2", "password3", "password4"]
 
-
 def home_button_check():
     pass
 
@@ -28,12 +28,18 @@ def signupnow_button_check():
 def passhide_button_check():
     pass
 
+def invalid_input_check():
+    pass
+
 def email_check():
-    
-    #registered_check_cases = ["", "",]
     email_input = driver.find_element_by_id("email")
-    for case in invalid_check_cases:
-        email_input.send_keys(case)
+    sign_in_button = driver.find_element_by_id("loginBtn")
+    for email in invalid_emails:
+        email_input.send_keys(email)
+        sign_in_button.click()
+        sleep(1000)
+
+
    
 
 def telephonenumber_check():
@@ -44,7 +50,8 @@ def password_check():
 
 driver = webdriver.Chrome() #Change if another browser or driver to use!
 url_path = getcwd()
-driver.get(url_path + "/login.html")
+driver.get(url_path + "/index.html")
+driver.find_element_by_id("signInBtn").click()
 
 email_check()
 

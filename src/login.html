@@ -4,7 +4,8 @@
 <h1> Oturum Ac</h1>
 
 <form>
-<input id="email" type= "email" placeholder= "E-posta veya telefon numarasi"></input>
+<input id="email" type= "text" placeholder= "E-posta veya telefon numarasi" onfocusout="registerFocusOut()"></input>
+<div id="emailError" class="inputError" hidden="true"></div>
 <input id="pass" type= "password" placeholder="Parola"></input>
 
 </form>
@@ -13,11 +14,47 @@
 
 
 <script type="text/javascript">
+
+    function containsLetter(inputtxt) //Need to fix
+    {
+        var numerics = /[a-zA-Z]/;
+        if (inputtxt.match(numerics)) return true;
+        return false;
+    }
+
+    function checkEmailError()
+    {
+        if (document.getElementById("email").value.length == 0)
+        {
+            document.getElementById("emailError").innerText = "Lütfen geçerli bir eposta veya telefon numarasý girin.";
+            return true;
+        }
+        else if (document.getElementById("email").value.length < 5 || document.getElementById("email").value.length > 50)
+        {
+            if (containsLetter(document.getElementById("email").value)) document.getElementById("emailError").innerText = "Lütfen geçerli bir eposta girin.";
+            else document.getElementById("emailError").innerText = "Lütfen geçerli bir telefon numarasý girin.";
+            return true;
+        }
+        else
+        {
+            document.getElementById("emailError").innerText = "";
+            return false;
+        }
+    }
+
+    function registerFocusOut()
+    {
+        if (checkEmailError()) document.getElementById("emailError").hidden = false;
+    }
+
+    document.getElementById("email").oninput = checkEmailError;
+
+
 	document.getElementById("loginBtn").onclick = function () {
         		console.log("button clicked");
 		console.log(document.getElementById("email").value);
 		console.log(document.getElementById("pass").value);
-		location.href="index.html";
+		//location.href="index.html";
     	};
 </script>
 </body>
