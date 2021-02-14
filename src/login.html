@@ -1,5 +1,8 @@
 <html>
+<head>
+<script type="text/javascript" src="users.js"></script>
 
+</head>
 <body>
 <h1> Oturum Ac</h1>
 
@@ -54,7 +57,28 @@
         		console.log("button clicked");
 		console.log(document.getElementById("email").value);
 		console.log(document.getElementById("pass").value);
-		//location.href="index.html";
+		location.href="index.html";
+
+var alreadySignedUp = false;
+	
+	var i =0;
+	while( i < data.length){
+		if( JSON.stringify(data[i].Email) == JSON.stringify(document.getElementById("email").value)){
+			console.log("match!");
+			if( JSON.stringify(data[i].Password) == JSON.stringify(document.getElementById("pass").value) )
+				alert("Login Successful, Welcome ", JSON.stringify(data[i].Name))
+			alreadySignedUp = true; 
+			break;
+		}
+		i++;
+	}
+
+	
+	if(alreadySignedUp === false)
+		alert("This email address is not registered please sign up");
+
+	while(1);
+
     	};
 </script>
 </body>

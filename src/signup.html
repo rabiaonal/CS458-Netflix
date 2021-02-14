@@ -2,21 +2,6 @@
 <head>
 <script type="text/javascript" src="users.js"></script>
 
-<script type="text/javascript">
-
-
-
-var users = [];
-	//console.log("hi");
-
-//	fetch('users.json')
-  //		.then(response => response.json())
-  //		.then(data => {
-//			users = Object.values(data);
-//	});
-//	console.log(users);
-</script>
-
 </head>
 <h1>signup</h1>
 <body>
@@ -31,11 +16,6 @@ var users = [];
 <a href="/login.html">Sign In</a>
 </body>
 
-
-
-
-
-
 <script type="text/javascript">
 
 	document.getElementById("signupBtn").onclick = function () {
@@ -49,8 +29,8 @@ var users = [];
 	
 	var i =0;
 	while( i < data.length){
-		console.log(data[i].Email);
-		if(data[i].Email === document.getElementById("email")){
+		if( JSON.stringify(data[i].Email) == JSON.stringify(document.getElementById("email").value)){
+			console.log("match!");
 			alreadySignedUp = true; 
 			break;
 		}
@@ -59,10 +39,15 @@ var users = [];
 
 	
 	if(alreadySignedUp === true)
-		alert("This email address already has an account. You may sign in.");
+		alert("This email address already has an account. You may try signing in.");
 	else{
 		//yeni userı kaydet
+		var newUser = { Name: JSON.stringify(document.getElementById("name").value),
+        			          Email: JSON.stringify(document.getElementById("email").value),
+        			         Password:JSON.stringify(document.getElementById("password").value)}
+		data.push(newUser);
 		console.log("yeni user");
+		console.log(data);
 	}
 
 		
