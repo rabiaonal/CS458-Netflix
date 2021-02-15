@@ -1,6 +1,9 @@
 from os import getcwd
+import os
 from time import sleep
 from selenium import webdriver
+
+os.system('start python -m http.server 8000') #Start localhost in another terminal
 
 invalid_inputs = ["", "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"] #empty-string and 64+ character string
 
@@ -49,12 +52,13 @@ def password_check():
     pass
 
 driver = webdriver.Chrome() #Change if another browser or driver to use!
-url_path = getcwd()
+url_path = "http://localhost:8000/src" #getcwd()
+sleep(2) #Wait 2 secs for localhost to start
 driver.get(url_path + "/index.html")
 driver.find_element_by_id("signInBtn").click()
 
 email_check()
 
-#driver.close()
+driver.close()
 
 
