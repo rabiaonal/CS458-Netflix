@@ -40,10 +40,7 @@ def email_check():
     for email in invalid_emails:
         email_input.send_keys(email)
         sign_in_button.click()
-        sleep(1000)
-
-
-   
+        sleep(10)
 
 def telephonenumber_check():
     pass
