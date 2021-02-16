@@ -3,16 +3,47 @@ const fs = require('fs');
 const express = require('express');
 
 // Parse URL-encoded bodies (as sent by HTML forms)
-app.use(express.urlencoded());
+const app = express();
+app.set('view engine', 'ejs');
+app.use(express.urlencoded({ extended : true }));
 
 const hostname = '127.0.0.1';
 const port = 3000;
 
+let users = JSON.parse(fs.readFileSync('users.json'));
+console.log(users);
 
-let rawdata = fs.readFileSync('users.json');
-let data = JSON.parse(rawdata);
-console.log(data);
+app.get('/', function (req, res)
+{
+    res.render('index');
+});
 
+app.get('/login', function (req, res)
+{
+    res.render('login', {message: ''});
+});
+
+app.post('/login', function (req, res)
+{
+    for(i = 0; i < users.length; i++)
+    {
+        if(users[i].Email == req.body.email)
+        {
+            res.render('login', {message: 'login succesful'});
+        }
+    }
+    res.render('login', {message: 'login failed'});
+    console.log(req.body);
+});
+
+app.get('/signup', function (req, res)
+{
+    res.render('signup');
+});
+
+app.listen(port);
+
+/**
 const server = http.createServer((req, res) => {
 
     res.statusCode = 200;
@@ -22,16 +53,16 @@ const server = http.createServer((req, res) => {
     switch (req.url) {
         case "/":
             console.log(req.url);
-            path += "index.html";
+            path += "index.ejs";
             break;
         case "/signup":
-            path += "signup.html";
+            path += "signup.ejs";
             break;
         case "/login":
-            path += "login.html";
+            path += "login.ejs";
             break;
         case "/btnPressed":
-            path += "login.html";
+            path += "login.ejs";
             break;
         default:
             res.statusCode = 404;
@@ -45,4 +76,5 @@ const server = http.createServer((req, res) => {
 server.listen(port, hostname, () => {
     console.log(`Server running at http://${hostname}:${port}/`);
 });
+ **/
 
