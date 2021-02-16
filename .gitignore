@@ -1,3 +1,5 @@
 /src/chromedriver.exe
+/node_modules
 .vs
 .idea
+package-lock.json
