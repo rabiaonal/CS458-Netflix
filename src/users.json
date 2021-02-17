@@ -1,17 +1,1 @@
-[
-  {
-    "Name": "Kenneth",
-    "Email": "kenneth@gmail.com",
-    "Password": 329129293
-  },
-  {
-    "Name": "John",
-    "Email": "john@gmail.com",
-    "Password": 329129293
-  },
-  {
-    "Name": "Mary",
-    "Email": "mary@gmail.com",
-    "Password": 329129293
-  }
-]
+[{"Email":"kenneth@gmail.com","Phone":"05550000000","Password":"329129293"},{"Email":"john@gmail.com","Phone":"05551111111","Password":"329129293"},{"Email":"mary@gmail.com","Phone":"05552222222","Password":"329129293"}]

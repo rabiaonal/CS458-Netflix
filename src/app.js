@@ -10,49 +10,65 @@ app.use(express.urlencoded({ extended : true }));
 const hostname = '127.0.0.1';
 const port = 3000;
 
-let users = JSON.parse(fs.readFileSync('users.json'));
-console.log(users);
+const users_file = 'users.json';
+const users = JSON.parse(fs.readFileSync(users_file));
 
+//Index page
 app.get('/', function (req, res)
 {
     res.render('index');
 });
 
-
-//TO DO
+//Signup page
 app.get('/signup', function (req, res)
 {
-    res.render('signup', {message: ''});
+    res.render('signup');
 });
 
 app.post('/signup', function (req, res)
 {
-    //	Bu hesap zaten var gibi görünüyor. İlgili hesapta oturum açın ya da farklı bir e‑posta adresi kullanmayı deneyin.
-    var result = checkUserData(req.body.email, req.body.pass) ;
-
-    if(result.status === "successful")
-        res.render('signupsuccess', {name: result.name});
+    let user = { Email: req.body.email, Phone: req.body.phone, Password: req.body.password };
+    let result = checkUserData(user.Email, user.Phone, null);
+    if(result.status == UserMatchStatus.INVALID_USER)
+    {
+        users.push(user);
+        fs.writeFile(users_file, JSON.stringify(users), (err) =>
+        {
+            if(err) throw err;
+        });
+        res.render('home', { email: user.Email, phone: user.Phone });
+    }
+    else if(result.email != null)
+    {
+        res.render('signup', { alert: true, message: "Bu e-posta ile ilişkilendirilmiş bir hesap zaten var. Lütfen oturum açmayı deneyin."});
+    }
     else
-        res.render('name', {message: result.status});
-    console.log(req.body);
+    {
+        res.render('signup', { alert: true, message: "Bu telefon numarası ile ilişkilendirilmiş bir hesap zaten var. Lütfen oturum açmayı deneyin."});
+    }
 });
-
-
 
 //Login page
 app.get('/login', function (req, res)
 {
-    res.render('login', {message: ''});
+    res.render('login');
 });
 
 app.post('/login', function (req, res)
 {
-    var result = checkUserData(req.body.email, req.body.pass) ;
-    if(result.status === "successful")
-        res.render('loginsuccess', {name: result.name});
+    let result = checkUserData(req.body.email, null, req.body.pass);
+    if(result.status == UserMatchStatus.MATCH_SUCCESS)
+    {
+        res.render('home', { email: result.email, phone: result.phone });
+    }
+    else if(result.status == UserMatchStatus.INVALID_PASSWORD)
+    {
+        res.render('login', { alert: true, message: "Parola yanlış. Lütfen tekrar deneyin ya da parolanızı sıfırlayın."});
+    }
     else
-        res.render('login', {message: result.status});
-    console.log(req.body);
+    {
+        res.render('login', { alert: true, message: "Böyle bir hesap bulamadık. Lütfen kaydolmayı deneyin."});
+    }
 });
 
 //Forgot password page
@@ -61,22 +77,36 @@ app.get('/forgotpassword', function (req, res)
     res.render('forgotpassword', {message: ''});
 });
 
-
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`)
 });
 
-function checkUserData(email, password){
-    var rawdata = fs.readFileSync('users.json');
-    var users = JSON.parse(rawdata);
+const UserMatchStatus = {
+    INVALID_USER : 0,
+    INVALID_PASSWORD : 1,
+    MATCH_SUCCESS : 2
+};
 
-    for(var i = 0; i < users.length; i++){
-        if(users[i].Email == email){
-            if(users[i].Password == password){
-                return {name: users[i].Name, status: "successful"};
+function checkUserData(email, phone, password)
+{
+    for(var i = 0; i < users.length; i++)
+    {
+        if(users[i].Email == email)
+        {
+            if(users[i].Password == password)
+            {
+                return { email: users[i].Email, phone: users[i].Phone, status: UserMatchStatus.MATCH_SUCCESS };
             }
-            return {name: "", status: "Parola yanlış. Lütfen yeniden deneyin ya da parolanızı sıfırlayın."};
+            return { email: users[i].Email, phone: null, status: UserMatchStatus.INVALID_PASSWORD };
+        }
+        if(users[i].Phone == phone)
+        {
+            if(users[i].Password == password)
+            {
+                return { email: users[i].Email, phone: users[i].Phone, status: UserMatchStatus.MATCH_SUCCESS };
+            }
+            return { email: null, phone: users[i].Phone, status: UserMatchStatus.INVALID_PASSWORD };
         }
     }
-    return {name: "", status: "Bu e‑posta adresi ile bağlantılı bir hesap bulamadık. Lütfen yeniden deneyin ya da yeni bir hesap oluşturun."};
+    return { email: null, phone: null, status: UserMatchStatus.INVALID_USER };
 }

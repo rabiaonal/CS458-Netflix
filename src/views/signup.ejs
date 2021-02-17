@@ -1,63 +1,17 @@
 <html>
-<head>
-<script type="text/javascript" src="users.js"></script>
-
-</head>
-<h1>signup</h1>
-<body>
-<form>
-<input id="name" type="text" placeholder="Name"></input>
-<input id="email" type="email" placeholder="E-mail"></input>
-<input id="password" type="password" placeholder="Password"></input>
-<input id="passwordCheck" type="password" placeholder="Password Again"></input>
-</form>
-<button id="signupBtn">Sign Up</button>
-
-<a href="/login">Sign In</a>
-</body>
-
-<script type="text/javascript">
-
-	document.getElementById("signupBtn").onclick = function () {
-
-	if(document.getElementById("password").value !== document.getElementById("passwordCheck").value){
-		alert("Passwords are not the same");
-		
-	}
-
-	var alreadySignedUp = false;
-	
-	var i =0;
-	while( i < data.length){
-		if( JSON.stringify(data[i].Email) == JSON.stringify(document.getElementById("email").value)){
-			console.log("match!");
-			alreadySignedUp = true; 
-			break;
-		}
-		i++;
-	}
-
-	
-	if(alreadySignedUp === true)
-		alert("This email address already has an account. You may try signing in.");
-	else{
-		//yeni userı kaydet
-		var newUser = { Name: JSON.stringify(document.getElementById("name").value),
-        			          Email: JSON.stringify(document.getElementById("email").value),
-        			         Password:JSON.stringify(document.getElementById("password").value)}
-		data.push(newUser);
-		console.log("yeni user");
-		console.log(data);
-	}
-
-		
-		
-    };
-
-	
-
-</script>
-
-
-
+    <head>
+    </head>
+    <h1>signup</h1>
+    <body>
+        <form action="/signup" method="post">
+            <div id="signupError" class="signupError"><%if(locals.alert)%><%=locals.message%></div>
+            <input name="email" type="text" placeholder="E-posta"></input>
+            <input name="phone" type="tel" placeholder="Telefon Numarası"></input>
+            <input name="password" type="password" placeholder="Password"></input>
+            <button type="submit">Kaydol</button>
+        </form>
+            <a href="/login">Oturum Aç</a>
+    </body>
+    <script type="text/javascript">
+    </script>
 </html>

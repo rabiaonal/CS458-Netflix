@@ -8,7 +8,7 @@
 <h1> Oturum Aç</h1>
 
 <form action="/login" method="post" >
-    <div id="loginError" class="loginError"><%=message%></div>
+    <div id="loginError" class="loginError"><%if(locals.alert)%><%=locals.message%></div>
     <input id="email" name="email" type= "text" placeholder= "E-posta veya telefon numarası" onfocusout="emailFocusOut()">
     <div id="emailError" class="inputError" hidden></div>
     <input id="pass" name="pass" type= "password" placeholder="Parola" onfocusout="passFocusOut()">
