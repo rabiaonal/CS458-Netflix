@@ -1,8 +1,9 @@
 <html>
     <head>
+        <title>Netflix</title>
     </head>
-    <h1>signup</h1>
     <body>
+        <h1>Kaydol</h1>
         <form action="/signup" method="post" onsubmit="return checkSubmitError();">
             <div id="signupError" class="signupError"><%if(locals.alert)%><%=locals.message%></div>
             <div id="emailForm">
@@ -17,9 +18,9 @@
                 <input id="pass" name="password" type="password" placeholder="Password" onfocusout="passFocusOut()"></input>
                 <div id="passError" class="inputError" hidden ></div>
             </div>
-            <input type="submit">Kaydol</button>
+            <input type="submit" value="Kaydol">
         </form>
-            <a href="/login">Oturum Aç</a>
+        <a href="/login">Oturum Aç</a>
     </body>
     <script type="text/javascript">
 
