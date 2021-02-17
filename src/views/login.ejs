@@ -6,7 +6,8 @@
         <title>Netflix</title>
     </head>
     <body>
-        <h1>Oturum Aç</h1>
+        <h1><a href="/" id="homebutton">NETFLIX</a> </h1>
+        <h2>Oturum Aç</h2>
         <form action="/login" method="post" onsubmit="return checkSubmitError();">
             <div id="loginError" class="loginError"><%if(locals.alert)%><%=locals.message%></div>
             <div id="emailForm">
@@ -15,7 +16,7 @@
             </div>
             <div id="passForm">
                 <input id="pass" name="pass" type= "password" placeholder="Parola" onfocusout="passFocusOut()">
-                <!--    Show hide password button-->
+                <button onclick="showhidepass()" type="button">&#128065</button>
                 <div id="passError" class="inputError" hidden ></div>
             </div>
             <input type="submit" value="Oturum Aç">
@@ -25,6 +26,10 @@
 
         <script type="text/javascript">
 
+            function showhidepass(){
+                pass = document.getElementById("pass");
+                pass.setAttribute('type', pass.getAttribute('type') === 'password' ? 'text' : 'password');
+            }
             function emailOrPhone(input)
             {
                 return /[^\d.+()]+/.test(input);
