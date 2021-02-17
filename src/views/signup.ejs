@@ -3,15 +3,111 @@
     </head>
     <h1>signup</h1>
     <body>
-        <form action="/signup" method="post">
+        <form action="/signup" method="post" onsubmit="return checkSubmitError();">
             <div id="signupError" class="signupError"><%if(locals.alert)%><%=locals.message%></div>
-            <input name="email" type="text" placeholder="E-posta"></input>
-            <input name="phone" type="tel" placeholder="Telefon Numarası"></input>
-            <input name="password" type="password" placeholder="Password"></input>
-            <button type="submit">Kaydol</button>
+            <div id="emailForm">
+                <input id="email" name="email" type="text" placeholder="E-posta" onfocusout="emailFocusOut()"></input>
+                <div id="emailError" class="inputError" hidden></div>
+            </div>
+            <div id="phoneForm">
+                <input id="phone" name="phone" type="tel" placeholder="Telefon Numarası" onfocusout="phoneFocusOut()"></input>
+                <div id="phoneError" class="inputError" hidden></div>
+            </div>
+            <div id="passForm">
+                <input id="pass" name="password" type="password" placeholder="Password" onfocusout="passFocusOut()"></input>
+                <div id="passError" class="inputError" hidden ></div>
+            </div>
+            <input type="submit">Kaydol</button>
         </form>
             <a href="/login">Oturum Aç</a>
     </body>
     <script type="text/javascript">
+
+        function checkValidEmail(input)
+        {
+            return /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(input);
+        }
+
+        function checkValidPhone(input)
+        {
+            return /^\d{10}$/.test(input);
+        }
+
+        function checkEmailError()
+        {
+            if (document.getElementById("email").value.length < 5 || document.getElementById("email").value.length > 50)
+            {
+                document.getElementById("emailError").innerText = "Lütfen geçerli bir e‑posta adresi girin.";
+                return false;
+            }
+            else if(!checkValidEmail(document.getElementById("email").value))
+            {
+                document.getElementById("emailError").innerText = "Lütfen geçerli bir e‑posta adresi girin.";
+                return false;
+            }
+            else
+            {
+                document.getElementById("emailError").innerText = "";
+                return true;
+            }
+        }
+
+        function checkPhoneError()
+        {
+            if (document.getElementById("phone").value.length < 5 || document.getElementById("phone").value.length > 50)
+            {
+                document.getElementById("phoneError").innerText = "Lütfen geçerli bir telefon numarası girin.";
+                return false;
+            }
+            else if(!checkValidPhone(document.getElementById("phone").value))
+            {
+                document.getElementById("phoneError").innerText = "Lütfen geçerli bir telefon numarası girin.";
+                return false;
+            }
+            else
+            {
+                document.getElementById("phoneError").innerText = "";
+                return true;
+            }
+        }
+
+        function checkPassError()
+        {
+            if (document.getElementById("pass").value.length < 4 || document.getElementById("pass").value.length > 60)
+            {
+                document.getElementById("passError").innerText = "Parolanız 4 ila 60 karakter olmalıdır.";
+                return false;
+            }
+            else
+            {
+                document.getElementById("passError").innerText = "";
+                return true;
+            }
+        }
+
+        function checkSubmitError()
+        {
+            return checkEmailError() && checkPhoneError() && checkPassError();
+        }
+
+        function emailFocusOut()
+        {
+            if (!checkEmailError()) document.getElementById("emailError").hidden = false;
+        }
+
+        function phoneFocusOut()
+        {
+            if (!checkPhoneError()) document.getElementById("phoneError").hidden = false;
+        }
+
+        function passFocusOut()
+        {
+            if (!checkPassError()) document.getElementById("passError").hidden = false;
+        }
+
+        document.getElementById("email").oninput = checkEmailError;
+        document.getElementById("phone").oninput = checkPhoneError;
+        document.getElementById("pass").oninput = checkPassError;
+
     </script>
 </html>

@@ -7,13 +7,17 @@
 <body>
 <h1> Oturum Aç</h1>
 
-<form action="/login" method="post" >
+<form action="/login" method="post" onsubmit="return checkSubmitError();">
     <div id="loginError" class="loginError"><%if(locals.alert)%><%=locals.message%></div>
-    <input id="email" name="email" type= "text" placeholder= "E-posta veya telefon numarası" onfocusout="emailFocusOut()">
-    <div id="emailError" class="inputError" hidden></div>
-    <input id="pass" name="pass" type= "password" placeholder="Parola" onfocusout="passFocusOut()">
-<!--    Show hide password button-->
-    <div id="passError" class="inputError" hidden ></div>
+    <div id="emailForm">
+        <input id="email" name="email" type= "text" placeholder= "E-posta veya telefon numarası" onfocusout="emailFocusOut()">
+        <div id="emailError" class="inputError" hidden></div>
+    </div>
+    <div id="passForm">
+        <input id="pass" name="pass" type= "password" placeholder="Parola" onfocusout="passFocusOut()">
+        <!--    Show hide password button-->
+        <div id="passError" class="inputError" hidden ></div>
+    </div>
     <button type="submit">Oturum Aç</button>
 <!--    Check inputs before submitting-->
 </form>
@@ -21,16 +25,12 @@
 <a href="/forgotpassword">Şifremi unuttum</a>
 
 <script type="text/javascript">
+
     function containsLetter(inputtxt)
     {
         var letters = /[^\d.+()]+/;
         if (inputtxt.match(letters)) return true;
         return false;
-    }
-
-    function emailFocusOut()
-    {
-        if (checkEmailError()) document.getElementById("emailError").hidden = false;
     }
 
     function checkEmailError()
@@ -53,11 +53,6 @@
         }
     }
 
-    function passFocusOut()
-    {
-        if (checkPassError()) document.getElementById("passError").hidden = false;
-    }
-
     function checkPassError()
     {
         if (document.getElementById("pass").value.length < 4 || document.getElementById("pass").value.length > 60)
@@ -72,50 +67,24 @@
         }
     }
 
+    function checkSubmitError()
+    {
+        return checkEmailError() && checkPassError();
+    }
+
+    function emailFocusOut()
+    {
+        if (checkEmailError()) document.getElementById("emailError").hidden = false;
+    }
+
+    function passFocusOut()
+    {
+        if (checkPassError()) document.getElementById("passError").hidden = false;
+    }
+
     document.getElementById("email").oninput = checkEmailError;
     document.getElementById("pass").oninput = checkPassError;
 
-    document.getElementById("loginBtn").onclick = function () {
-        //Show errors after pressing button even if the focus is not lost
-        document.getElementById("emailError").hidden = false;
-        document.getElementById("passError").hidden = false;
-        if(checkEmailError() || checkPassError()) return;
-
-        console.log("button clicked");
-
-        email = document.getElementById("email").value;
-        password = document.getElementById("pass").value;
-        console.log(email);
-        console.log(password);
-
-        $.getJSON("users.json", checkUserData).fail(function(){
-            console.log("An error has occurred reading json file.");
-        });
-
-    };
-    function checkUserData(users){
-        var emailFound = false;
-        for(i = 0; i < users.length; i++){
-            console.log(users[i]);
-            if(users[i].Email  == email){
-                console.log("match!" + email);
-                emailFound = true;
-                if( users[i].Password == password ){
-                    alert("Login Successful, Welcome " + users[i].Name);
-                    location.href="/";
-                    return;
-                }
-                document.getElementById("emailError").hidden = false;
-                document.getElementById("emailError").innerHTML = "Parola yanlış. Lütfen yeniden deneyin ya da <a href='/forgotpassword'>parolanızı sıfırlayın</a>.";
-                break;
-            }
-        }
-
-        if(!emailFound){
-            document.getElementById("emailError").hidden = false;
-            document.getElementById("emailError").innerHTML = "Bu e‑posta adresi ile bağlantılı bir hesap bulamadık. Lütfen yeniden deneyin ya da <a href='/signup'>yeni bir hesap oluşturun</a>.";
-        }
-    }
 </script>
 </body>
 
