@@ -56,7 +56,9 @@ app.get('/login', function (req, res)
 
 app.post('/login', function (req, res)
 {
-    let result = checkUserData(req.body.email, null, req.body.pass);
+    var result;
+    if(emailOrPhone(req.body.email)) result = checkUserData(req.body.email, null, req.body.pass);
+    else result = checkUserData(null, req.body.email, req.body.pass);
     if(result.status == UserMatchStatus.MATCH_SUCCESS)
     {
         res.render('home', { email: result.email, phone: result.phone });
@@ -109,4 +111,9 @@ function checkUserData(email, phone, password)
         }
     }
     return { email: null, phone: null, status: UserMatchStatus.INVALID_USER };
+}
+
+function emailOrPhone(input)
+{
+    return /[^\d.+()]+/.test(input);
 }
