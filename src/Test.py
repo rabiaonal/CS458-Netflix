@@ -3,19 +3,17 @@ import os
 from time import sleep
 from selenium import webdriver
 
-invalid_inputs = ["", "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"] #empty-string and 64+ character string
+invalid_emails = ["emai", "@ema", "mail", "asdfgasdfgasdfgasdfgasdfgasdfgasdfgasdfgasdfgasdfga"] #Email must be between 5 and 50 characters
+unregistered_emails = ["invaliduser1@gmail.com", "invaliduser2@gmail.com", "invaliduser3@gmail.com"]
+registered_emails = ["kenneth@gmail.com", "john@gmail.com", "mary@gmail.com"]
 
-invalid_emails = ["email.com", "invalid_email", ""]
-unregistered_emails = ["invaliduser1@gmail.com", "invaliduser2@gmail.com", "invaliduser3@gmail.com", "invaliduser4@gmail.com"]
-registered_emails = ["user1@gmail.com", "user2@gmail.com", "user3@gmail.com", "user4@gmail.com"]
+invalid_phnumber = ["0000", "1234", "-().", ""]
+unregistered_phnumber = ["5320000001", "5540000002", "5420000003", "5050000004"]
+registered_phnumber = ["5550000000", "5551111111", "5552222222"]
 
-invalid_phnumber = ["0555000", "", ""]
-unregistered_phnumber = ["05550000001", "05550000002", "05550000003", "05550000004"]
-registered_phnumber = ["05330000001", "05330000002", "05330000003", "05330000004"]
-
-invalid_passwords = ["", "", ""]
-unregistered_passwords = ["invalidpassword1", "invalidpassword2", "invalidpassword3", "invalidpassword4"]
-registered_passwords = ["password1", "password2", "password3", "password4"]
+invalid_passwords = ["123", "xyz", "...", "0123456789012345678901234567890123456789012345678901234567891"] #Password must be between 4 and 60 characters
+unregistered_passwords = ["invalidpassword1", "invalidpassword2", "invalidpassword3"]
+registered_passwords = ["329129293", "1234", "123123123"]
 
 def home_button_check():
     pass
@@ -29,12 +27,17 @@ def signupnow_button_check():
 def passhide_button_check():
     pass
 
-def invalid_input_check():
-    pass
+
+# Check different input combinations
+# Check how webpage corresponds to invalid inputs(empty, too many characters)
+# Check how webpage corresponds to invalid/unregistered/registered email
+# Check how webpage corresponds to invalid/unregistered/registered telephone number
+# Check how webpage corresponds to invalid/unregistered/registered password
 
 def email_check():
     email_input = driver.find_element_by_id("email")
     sign_in_button = driver.find_element_by_id("loginBtn")
+    email_error = driver.find_element_by_id("emailError")
     for email in invalid_emails:
         email_input.send_keys(email)
         sign_in_button.click()
@@ -47,7 +50,7 @@ def password_check():
     pass
 
 driver = webdriver.Chrome() #Change if another browser or driver to use!
-url_path = "http://localhost:8000/src" #getcwd()
+url_path = "http://localhost:3000/" #getcwd()
 sleep(2) #Wait 2 secs for localhost to start
 driver.get(url_path + "/index.html")
 driver.find_element_by_id("signInBtn").click()
