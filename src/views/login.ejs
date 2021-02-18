@@ -16,7 +16,7 @@
             </div>
             <div id="passForm">
                 <input id="pass" name="pass" type= "password" placeholder="Parola" onfocusout="passFocusOut()">
-                <button id="passhideBtn" onclick="showhidepass()" type="button">&#128065</button>
+                <button id="passhideBtn" onclick="showHidePass()" type="button">&#128065</button>
                 <div id="passError" class="inputError" hidden ></div>
             </div>
             <input type="submit" value="Oturum Aç">
@@ -26,10 +26,12 @@
 
         <script type="text/javascript">
 
-            function showhidepass(){
+            function showHidePass()
+            {
                 pass = document.getElementById("pass");
                 pass.setAttribute('type', pass.getAttribute('type') === 'password' ? 'text' : 'password');
             }
+
             function emailOrPhone(input)
             {
                 return /[^\d.+()]+/.test(input);

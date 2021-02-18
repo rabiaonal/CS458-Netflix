@@ -28,7 +28,10 @@ app.get('/signup', function (req, res)
 app.post('/signup', function (req, res)
 {
     let user = { Email: req.body.email, Phone: req.body.phone, Password: req.body.password };
-    let result = checkUserData(user.Email, user.Phone, null);
+
+    var result;
+    if(user.Phone.length == 0) result = checkUserData(user.Email, null, null);
+    else result = checkUserData(user.Email, user.Phone, null);
     if(result.status == UserMatchStatus.INVALID_USER)
     {
         users.push(user);
