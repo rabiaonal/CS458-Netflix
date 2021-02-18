@@ -13,23 +13,15 @@ invalid_passwords = ["123", "xyz", "...", "0123456789012345678901234567890123456
 unregistered_passwords = ["invalidpassword1", "invalidpassword2", "invalidpassword3"]
 registered_passwords = ["329129293", "1234", "123123123"] #Should be sorted with respect to registered_emails
 
-driver = webdriver.Chrome() #Change if another browser or driver to use!
-url_path = "http://localhost:3000/"
-login_route = "login"
-
 def index_page_sign_in_button_check():
     driver.get("http://localhost:3000/")
     driver.find_element_by_id("signInBtn").click()
-    sleep(1)
     assertCheck("Index page sign in button test", driver.current_url, "http://localhost:3000/login")
-    #assert driver.current_url == "http://localhost:3000/login"
 
 def index_page_sign_up_button_check():
     driver.get("http://localhost:3000/")
     driver.find_element_by_id("signUpBtn").click()
-    sleep(1)
     assertCheck("Index page sign up button test", driver.current_url, "http://localhost:3000/signup")
-    #assert driver.current_url == "http://localhost:3000/signup"
 
 def assertCheck(test_descriptor, input, expected):
     try:
@@ -43,9 +35,7 @@ def home_button_check():
 def login_page_home_button_check():
     driver.get("http://localhost:3000/login")
     driver.find_element_by_id("homebutton").click()
-    sleep(1)
     assertCheck("Login page home button test", driver.current_url, "http://localhost:3000/")
-    #assert driver.current_url == "http://localhost:3000/"
 
 def login_page_passhide_button_check():
     driver.get("http://localhost:3000/login")
@@ -56,35 +46,26 @@ def login_page_passhide_button_check():
     input_type_2 = input.get_attribute("type")
     button.click()
     input_type_3 = input.get_attribute("type")
-    #assertCheck("Login page pass hide button check", driver.current_url, "http://localhost:3000/login")
     try:
         assert (input_type_1 != input_type_2) & (input_type_1 == input_type_3)
         print("Login page pass/hide button test: ", "Test Succesful.")
     except AssertionError:
         print("Login page pass/hide button test: ", "Test Failed.")
 
-
 def login_page_sign_up_link_check():
     driver.get("http://localhost:3000/login")
     driver.find_element_by_id("signupLink").click()
-    sleep(1)
     assertCheck("Login page sign up link test", driver.current_url, "http://localhost:3000/signup")
-    #assert driver.current_url == "http://localhost:3000/signup"
-
 
 def login_page_help_link_check():
     driver.get("http://localhost:3000/login")
     driver.find_element_by_id("forgotpasswordLink").click()
-    sleep(1)
     assertCheck("Login page help up link test", driver.current_url, "http://localhost:3000/forgotpassword")
-    #assert driver.current_url == "http://localhost:3000/forgotpassword"
 
 def signup_page_login_link_check():
     driver.get("http://localhost:3000/signup")
     driver.find_element_by_id("loginLink").click()
-    sleep(1)
     assertCheck("Sign up page login link test", driver.current_url, "http://localhost:3000/login")
-    #assert driver.current_url == "http://localhost:3000/login"
 
 def login_script(email, password):
     print("Login with email: %s, password: %s" % (email, password))
@@ -95,42 +76,17 @@ def login_script(email, password):
 
 def email_check():
     for email in invalid_emails:
-        driver.get(url_path + "/login")
-        email_input = driver.find_element_by_id("email")
-        pass_input = driver.find_element_by_id("pass")
-        sign_in_button = driver.find_element_by_id("loginBtn")
+        login_script(email, registered_passwords[0])
         email_error = driver.find_element_by_id("emailError")
-
-        email_input.send_keys(email)
-        pass_input.send_keys(registered_passwords[0]) #Password will be valid
-        sign_in_button.click()
-        assertCheck("URL Check", driver.current_url, url_path + "/login")
         assertCheck("Check invalid email", email_error.get_attribute('innerHTML'), "Lütfen geçerli bir e‑posta adresi girin.")
 
-
     for email in unregistered_emails:
-        driver.get(url_path + "/login")
-        email_input = driver.find_element_by_id("email")
-        pass_input = driver.find_element_by_id("pass")
-        sign_in_button = driver.find_element_by_id("loginBtn")
-
-        email_input.send_keys(email)
-        pass_input.send_keys(registered_passwords[0]) #Password will be valid
-        sign_in_button.click()
-
+        login_script(email, registered_passwords[0])
         login_error = driver.find_element_by_id("loginError")
-        assertCheck("URL Check", driver.current_url, url_path + "/login")
         assertCheck("Check unregistered email", login_error.get_attribute('innerHTML'), "Böyle bir hesap bulamadık. Lütfen kaydolmayı deneyin.")
 
     for i, email in enumerate(registered_emails, start=0):
-        driver.get(url_path + "/login")
-        email_input = driver.find_element_by_id("email")
-        pass_input = driver.find_element_by_id("pass")
-        sign_in_button = driver.find_element_by_id("loginBtn")
-
-        email_input.send_keys(email)
-        pass_input.send_keys(registered_passwords[i]) #Respective valid password
-        sign_in_button.click()
+        login_script(email, registered_passwords[i])
         welcome = driver.find_element_by_tag_name("h1")
         assertCheck("Check registered email", welcome.get_attribute('innerHTML'), "Login Successful. Welcome " + email)
 
@@ -143,20 +99,19 @@ def pass_check():
         login_script(registered_emails[i], registered_passwords[i])
         assertCheck("Registered password test %d:" % (i+1), driver.find_element_by_tag_name("h1").get_attribute("innerHTML"), "Login Successful. Welcome %s" % (registered_emails[i]))
 
-
-def telephonenumber_check():
+def phone_check():
     pass
 
-def password_check():
-    pass
-
+driver = webdriver.Chrome() #Change if another browser or driver to use!
+url_path = "http://localhost:3000/"
+login_route = "login"
+signup_page_login_link_check()
+login_page_home_button_check()
+login_page_sign_up_link_check()
+login_page_help_link_check()
+login_page_passhide_button_check()
 email_check()
 pass_check()
-signup_page_login_link_check()
-login_page_help_link_check()
-login_page_home_button_check()
-login_page_passhide_button_check()
-login_page_sign_up_link_check()
 driver.close()
 
 
