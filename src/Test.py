@@ -3,8 +3,6 @@ import os
 from time import sleep
 from selenium import webdriver
 
-os.system('start python -m http.server 8000') #Start localhost in another terminal
-
 invalid_inputs = ["", "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"] #empty-string and 64+ character string
 
 invalid_emails = ["email.com", "invalid_email", ""]
