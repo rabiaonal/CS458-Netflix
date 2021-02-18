@@ -19,17 +19,53 @@ invalid_passwords = ["", "", ""]
 unregistered_passwords = ["invalidpassword1", "invalidpassword2", "invalidpassword3", "invalidpassword4"]
 registered_passwords = ["password1", "password2", "password3", "password4"]
 
-def home_button_check():
-    pass
+def index_page_sign_in_button_check():
+    driver.get("http://localhost:3000/")
+    driver.find_element_by_id("signInBtn").click()
+    sleep(1)
+    assert driver.current_url == "http://localhost:3000/login"
 
-def help_button_check():
-    pass
+def index_page_sign_up_button_check():
+    driver.get("http://localhost:3000/")
+    driver.find_element_by_id("signUpBtn").click()
+    sleep(1)
+    assert driver.current_url == "http://localhost:3000/signup"
 
-def signupnow_button_check():
-    pass
+def login_page_home_button_check():
+    driver.get("http://localhost:3000/login")
+    driver.find_element_by_id("homebutton").click()
+    sleep(2)
+    assert driver.current_url == "http://localhost:3000/"
 
-def passhide_button_check():
-    pass
+def login_page_passhide_button_check():
+    driver.get("http://localhost:3000/login")
+    button = driver.find_element_by_id("passhideBtn")
+    button_type_1 = button.get_attribute("type")
+    button.click()
+    button_type_2 = button.get_attribute("type")
+    button.click()
+    button_type_3 = button.get_attribute("type")
+    assert button_type_1 != button_type_2 & button_type_1 == button_type_3
+
+
+def login_page_sign_up_link_check():
+    driver.get("http://localhost:3000/login")
+    driver.find_element_by_id("signupLink").click()
+    sleep(1)
+    assert driver.current_url == "http://localhost:3000/signup"
+
+
+def login_page_help_link_check():
+    driver.get("http://localhost:3000/login")
+    driver.find_element_by_id("forgotpasswordLink").click()
+    sleep(1)
+    assert driver.current_url == "http://localhost:3000/forgotpassword"
+
+def signup_page_login_link_check():
+    driver.get("http://localhost:3000/signup")
+    driver.find_element_by_id("loginLink").click()
+    sleep(1)
+    assert driver.current_url == "http://localhost:3000/login"
 
 def invalid_input_check():
     pass
@@ -49,12 +85,12 @@ def password_check():
     pass
 
 driver = webdriver.Chrome() #Change if another browser or driver to use!
-url_path = "http://localhost:8000/src" #getcwd()
-sleep(2) #Wait 2 secs for localhost to start
-driver.get(url_path + "/index.html")
-driver.find_element_by_id("signInBtn").click()
+#url_path = "http://localhost:8000/src" #getcwd()
+#sleep(2) #Wait 2 secs for localhost to start
+#driver.get(url_path + "/index.html")
+#driver.find_element_by_id("signInBtn").click()
 
-email_check()
+#email_check()
 
 driver.close()
 

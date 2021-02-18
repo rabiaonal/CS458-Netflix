@@ -16,13 +16,13 @@
             </div>
             <div id="passForm">
                 <input id="pass" name="pass" type= "password" placeholder="Parola" onfocusout="passFocusOut()">
-                <button onclick="showhidepass()" type="button">&#128065</button>
+                <button id="passhideBtn" onclick="showhidepass()" type="button">&#128065</button>
                 <div id="passError" class="inputError" hidden ></div>
             </div>
             <input type="submit" value="Oturum Aç">
         </form>
-        <a href="/signup">Şimdi kaydolun</a>
-        <a href="/forgotpassword">Şifremi unuttum</a>
+        <a id="signupLink" href="/signup">Şimdi kaydolun</a>
+        <a id="forgotpasswordLink" href="/forgotpassword">Şifremi unuttum</a>
 
         <script type="text/javascript">
 
