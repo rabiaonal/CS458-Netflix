@@ -39,7 +39,7 @@ app.post('/signup', function (req, res)
         {
             if(err) throw err;
         });
-        res.render('home', { email: user.Email, phone: user.Phone });
+        res.redirect('home', { email: user.Email, phone: user.Phone });
     }
     else if(result.email != null)
     {

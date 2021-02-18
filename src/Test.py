@@ -15,6 +15,17 @@ invalid_passwords = ["123", "xyz", "...", "0123456789012345678901234567890123456
 unregistered_passwords = ["invalidpassword1", "invalidpassword2", "invalidpassword3"]
 registered_passwords = ["329129293", "1234", "123123123"]
 
+driver = webdriver.Chrome() #Change if another browser or driver to use!
+url_path = "http://localhost:3000/"
+login_route = "login"
+
+def assertCheck(test_descriptor, input, expected):
+    try:
+        assert input == expected
+        print(test_descriptor, "Test Successful.", "Expected Result: ", expected)
+    except AssertionError:
+        print(test_descriptor, "Test Failed.", "Expected Result: ", expected)
+
 def home_button_check():
     pass
 
@@ -34,6 +45,13 @@ def passhide_button_check():
 # Check how webpage corresponds to invalid/unregistered/registered telephone number
 # Check how webpage corresponds to invalid/unregistered/registered password
 
+def login_script(email, password):
+    print("Login with email: %s, password: %s" % (email, password))
+    driver.get(url_path + login_route)
+    driver.find_element_by_id("email").send_keys(email)
+    driver.find_element_by_id("pass").send_keys(password)
+    driver.find_element_by_id("loginSubmit").click()
+
 def email_check():
     email_input = driver.find_element_by_id("email")
     sign_in_button = driver.find_element_by_id("loginBtn")
@@ -43,20 +61,23 @@ def email_check():
         sign_in_button.click()
         sleep(10)
 
+def pass_check():
+    for i in range(0, len(registered_emails)):
+        login_script(registered_emails[i], invalid_passwords[i])
+        assertCheck("Invalid password test %d:" % (i+1), driver.find_element_by_id("passError").get_attribute("innerText"), "Parolanız 4 ila 60 karakter olmalıdır.")
+        login_script(registered_emails[i], unregistered_passwords[i])
+        assertCheck("Unregistered password test %d:" % (i+1), driver.find_element_by_id("loginError").get_attribute("innerHTML"), "Parola yanlış. Lütfen tekrar deneyin ya da parolanızı sıfırlayın.")
+        login_script(registered_emails[i], registered_passwords[i])
+        assertCheck("Registered password test %d:" % (i+1), driver.find_element_by_tag_name("h1").get_attribute("innerHTML"), "Login Successful. Welcome %s" % (registered_emails[i]))
+
+
 def telephonenumber_check():
     pass
 
 def password_check():
     pass
 
-driver = webdriver.Chrome() #Change if another browser or driver to use!
-url_path = "http://localhost:3000/" #getcwd()
-sleep(2) #Wait 2 secs for localhost to start
-driver.get(url_path + "/index.html")
-driver.find_element_by_id("signInBtn").click()
-
-email_check()
-
-driver.close()
+pass_check()
+#driver.close()
 
 
