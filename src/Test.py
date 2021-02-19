@@ -1,5 +1,7 @@
 from time import sleep
 from selenium import webdriver
+from selenium.webdriver import ActionChains
+from selenium.webdriver.common.keys import Keys
 
 invalid_input = ""
 
@@ -122,9 +124,32 @@ def phone_check():
         assertCheck("Check registered phone test %d:" % (i+1), driver.find_element_by_tag_name("h1").get_attribute('innerHTML'), "Login Successful. Welcome " + registered_emails[i])
 
 
+def keyboard_functionality_check():
+    action = ActionChains(driver)   #Keyboard actions
+
+    #Submit with Enter key test
+    driver.get(url_path + login_route)
+    driver.find_element_by_id("email").send_keys(registered_emails[0])
+    driver.find_element_by_id("pass").send_keys(registered_passwords[0])
+    driver.find_element_by_id("pass").send_keys(Keys.ENTER)
+    assertCheck("Submit with enter key test %d:" % (1), driver.find_element_by_tag_name("h1").get_attribute('innerHTML'), "Login Successful. Welcome " + registered_emails[0])
+
+    #Copy, paste and select all keyboard shortcuts test (Ctrl + C, Ctrl + V, Ctrl + A)
+    driver.get(url_path + login_route)
+    driver.find_element_by_id("passhideBtn").click()
+    driver.find_element_by_id("pass").send_keys(registered_passwords[0])
+    action.key_down(Keys.CONTROL).send_keys("a").key_up(Keys.CONTROL).perform()
+    action.key_down(Keys.CONTROL).send_keys("c").key_up(Keys.CONTROL).perform()
+
+    driver.find_element_by_id("email").click()
+    action.key_down(Keys.CONTROL).send_keys("v").key_up(Keys.CONTROL).perform()
+
+    assertCheck("Copy, paste and select all keyboard shortcuts test %d:" % (1), driver.find_element_by_id("email").get_attribute('value'), registered_passwords[0])
+
 driver = webdriver.Chrome() #Change if another browser or driver to use!
 url_path = "http://localhost:3000/"
 login_route = "login"
+
 signup_page_login_link_check()
 login_page_home_button_check()
 login_page_sign_up_link_check()
@@ -134,6 +159,8 @@ input_check()
 email_check()
 phone_check()
 pass_check()
+keyboard_functionality_check()
+
 driver.close()
 
 
