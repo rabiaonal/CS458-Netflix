@@ -1,27 +1,74 @@
 <html>
     <head>
         <title>Netflix</title>
+        <style>
+            * {
+              box-sizing: border-box;
+              font-family: arial;
+            }
+            .column {
+              float: left;
+              padding: 10px;
+              height: 500px;
+            }
+            .column.side {
+              width: 35%;
+            }
+            .column.middle {
+              width: 30%;
+              background-color: #3B3B3B;
+              border-radius: 8px;
+            }
+            .button {
+              background-color: #FF0000;
+              border: none;
+              color: white;
+              padding: 10px 20px;
+              text-align: center;
+              text-decoration: none;
+              display: inline-block;
+              font-size: 16px;
+              margin: 4px 2px;
+              border-radius: 4px;
+              font-family: arial;
+              cursor: pointer;
+              width: 100%
+            }
+            .text-input{
+              padding: 8px 20px;
+              margin: 8px 0;
+              box-sizing: border-box;
+              background-color: #3B3B3B;
+              color: white;
+              width: 100%;
+            }
+        </style>
     </head>
     <body>
-        <h1><a href="/" id="homebutton">NETFLIX</a></h1>
-        <h2>Sign Up</h2>
-        <form action="/signup" method="post" onsubmit="return checkSubmitError();">
-            <div id="signupError" class="signupError"><%if(locals.alert)%><%=locals.message%></div>
-            <div id="emailForm">
-                <input id="email" name="email" type="text" placeholder="E-mail" onfocusout="emailFocusOut()"></input>
-                <div id="emailError" class="inputError" hidden></div>
-            </div>
-            <div id="phoneForm">
-                <input id="phone" name="phone" type="tel" placeholder="Phone Number" onfocusout="phoneFocusOut()"></input>
-                <div id="phoneError" class="inputError" hidden></div>
-            </div>
-            <div id="passForm">
-                <input id="pass" name="password" type="password" placeholder="Password" onfocusout="passFocusOut()"></input>
-                <div id="passError" class="inputError" hidden ></div>
-            </div>
-            <input type="submit" value="Sign Up">
-        </form>
-        <a id="loginLink" href="/login">Sign In</a>
+        <h1><a href="/" id="homebutton">NETFLIX</a> </h1>
+        <div class="column side"></div>
+        <div class="column middle">
+            <h2 style="color:white">Sign Up</h2>
+            <form action="/signup" method="post" onsubmit="return checkSubmitError();">
+                <div id="signupError" style="color:#939393" class="signupError"><%if(locals.alert)%><%=locals.message%></div>
+                <div id="emailForm">
+                    <input id="email" name="email" class="text-input" type="text" placeholder="E-mail" onfocusout="emailFocusOut()"></input>
+                    <div id="emailError" style="color:#939393" class="inputError" hidden></div>
+                </div>
+                <div id="phoneForm">
+                    <input id="phone" name="phone" class="text-input" type="tel" placeholder="Phone Number" onfocusout="phoneFocusOut()"></input>
+                    <div id="phoneError" style="color:#939393" class="inputError" hidden></div>
+                </div>
+                <div id="passForm">
+                    <input id="pass" name="password" class="text-input" type="password" placeholder="Password" onfocusout="passFocusOut()"></input>
+                    <div id="passError" style="color:#939393" class="inputError" hidden ></div>
+                </div>
+                <input type="submit" class="button" value="Sign Up">
+            </form>
+
+            <p style="font-size:16px;text-align:left"> <a id="loginLink" style="color:white" href="/login">Sign In</a></p>
+        </div>
+        <div class="column side"></div>
     </body>
     <script type="text/javascript">
 
