@@ -1,5 +1,4 @@
 # CS458-Netflix
-CS458 Software Verification and Validation, Project 1, Netflix Sign up - Sign in
 
 HOW TO RUN THE WEBPAGE
 1) In order to see the webpage, one must have node.js on his/her computer as well as ejs and express modules that can be installed by simply running "npm install ejs" and "npm install express" on the command prompt or downloading the related modules.
