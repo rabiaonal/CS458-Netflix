@@ -8,7 +8,7 @@ HOW TO RUN THE WEBPAGE
 
 HOW TO RUN THE TESTS
 1) To be able to run the selenium tests, one must have python 3 and selenium package installed by "pip install selenium" on his/her computer.
-2) Also, selenium needs webdriver executables and corresponding browser executables installed on computer. Before running test script, one should get required driver from "https://www.selenium.dev/downloads/".
+2) Also, selenium needs webdriver executables and corresponding browser executables installed on computer. Before running test script, one should get required driver from "https://www.selenium.dev/downloads/" and put it on directory "src" to run with script "Test.py".
 3) The tests are in the file Test.py under directory "src", running "python Test.py [driver]" will run several tests and give the results.
 
   -> python Test.py Chrome
