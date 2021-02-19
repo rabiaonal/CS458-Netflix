@@ -79,7 +79,7 @@ app.post('/login', function (req, res)
 //Forgot password page
 app.get('/resetpass', function (req, res)
 {
-    res.render('resetpass', {message: ''});
+    res.render('resetpass');
 });
 
 app.listen(port, () => {
