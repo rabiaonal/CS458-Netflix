@@ -78,7 +78,7 @@ def email_check():
     for email in invalid_emails:
         login_script(email, registered_passwords[0])
         email_error = driver.find_element_by_id("emailError")
-        assertCheck("Check invalid email", email_error.get_attribute('innerHTML'), "Please enter a valid e‑mail.")
+        assertCheck("Check invalid email", email_error.get_attribute('innerHTML'), "Please enter a valid e-mail.")
 
     for email in unregistered_emails:
         login_script(email, registered_passwords[0])
