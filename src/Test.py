@@ -78,12 +78,12 @@ def email_check():
     for email in invalid_emails:
         login_script(email, registered_passwords[0])
         email_error = driver.find_element_by_id("emailError")
-        assertCheck("Check invalid email", email_error.get_attribute('innerHTML'), "Lütfen geçerli bir e‑posta adresi girin.")
+        assertCheck("Check invalid email", email_error.get_attribute('innerHTML'), "Please enter a valid e‑mail.")
 
     for email in unregistered_emails:
         login_script(email, registered_passwords[0])
         login_error = driver.find_element_by_id("loginError")
-        assertCheck("Check unregistered email", login_error.get_attribute('innerHTML'), "Böyle bir hesap bulamadık. Lütfen kaydolmayı deneyin.")
+        assertCheck("Check unregistered email", login_error.get_attribute('innerHTML'), "There is no such account. Please try signing up.")
 
     for i, email in enumerate(registered_emails, start=0):
         login_script(email, registered_passwords[i])
@@ -93,9 +93,9 @@ def email_check():
 def pass_check():
     for i in range(0, len(registered_emails)):
         login_script(registered_emails[i], invalid_passwords[i])
-        assertCheck("Invalid password test %d:" % (i+1), driver.find_element_by_id("passError").get_attribute("innerText"), "Parolanız 4 ila 60 karakter olmalıdır.")
+        assertCheck("Invalid password test %d:" % (i+1), driver.find_element_by_id("passError").get_attribute("innerText"), "Password should be between 4 and 60 characters long.")
         login_script(registered_emails[i], unregistered_passwords[i])
-        assertCheck("Unregistered password test %d:" % (i+1), driver.find_element_by_id("loginError").get_attribute("innerHTML"), "Parola yanlış. Lütfen tekrar deneyin ya da parolanızı sıfırlayın.")
+        assertCheck("Unregistered password test %d:" % (i+1), driver.find_element_by_id("loginError").get_attribute("innerHTML"), "Wrong password. Please try again or reset your password.")
         login_script(registered_emails[i], registered_passwords[i])
         assertCheck("Registered password test %d:" % (i+1), driver.find_element_by_tag_name("h1").get_attribute("innerHTML"), "Login Successful. Welcome %s" % (registered_emails[i]))
 

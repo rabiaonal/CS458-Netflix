@@ -4,24 +4,24 @@
     </head>
     <body>
         <h1><a href="/" id="homebutton">NETFLIX</a> </h1>
-        <h2>Kaydol</h2>
+        <h2>Sign Up</h2>
         <form action="/signup" method="post" onsubmit="return checkSubmitError();">
             <div id="signupError" class="signupError"><%if(locals.alert)%><%=locals.message%></div>
             <div id="emailForm">
-                <input id="email" name="email" type="text" placeholder="E-posta" onfocusout="emailFocusOut()"></input>
+                <input id="email" name="email" type="text" placeholder="E-mail" onfocusout="emailFocusOut()"></input>
                 <div id="emailError" class="inputError" hidden></div>
             </div>
             <div id="phoneForm">
-                <input id="phone" name="phone" type="tel" placeholder="Telefon Numarası" onfocusout="phoneFocusOut()"></input>
+                <input id="phone" name="phone" type="tel" placeholder="Phone Number" onfocusout="phoneFocusOut()"></input>
                 <div id="phoneError" class="inputError" hidden></div>
             </div>
             <div id="passForm">
                 <input id="pass" name="password" type="password" placeholder="Password" onfocusout="passFocusOut()"></input>
                 <div id="passError" class="inputError" hidden ></div>
             </div>
-            <input type="submit" value="Kaydol">
+            <input type="submit" value="Sign Up">
         </form>
-        <a id="loginLink" href="/login">Oturum Aç</a>
+        <a id="loginLink" href="/login">Sign In</a>
     </body>
     <script type="text/javascript">
 
@@ -39,12 +39,12 @@
         {
             if (document.getElementById("email").value.length < 5 || document.getElementById("email").value.length > 50)
             {
-                document.getElementById("emailError").innerText = "Lütfen geçerli bir e‑posta adresi girin.";
+                document.getElementById("emailError").innerText = "Please enter a valid e‑mail.";
                 return false;
             }
             else if(!checkValidEmail(document.getElementById("email").value))
             {
-                document.getElementById("emailError").innerText = "Lütfen geçerli bir e‑posta adresi girin.";
+                document.getElementById("emailError").innerText = "Please enter a valid e‑mail.";
                 return false;
             }
             else
@@ -58,12 +58,12 @@
         {
             if (document.getElementById("phone").value.length < 5 || document.getElementById("phone").value.length > 50)
             {
-                document.getElementById("phoneError").innerText = "Lütfen geçerli bir telefon numarası girin.";
+                document.getElementById("phoneError").innerText = "Please enter a valid phone number.";
                 return false;
             }
             else if(!checkValidPhone(document.getElementById("phone").value))
             {
-                document.getElementById("phoneError").innerText = "Lütfen geçerli bir telefon numarası girin.";
+                document.getElementById("phoneError").innerText = "Please enter a valid phone number.";
                 return false;
             }
             else
@@ -77,7 +77,7 @@
         {
             if (document.getElementById("pass").value.length < 4 || document.getElementById("pass").value.length > 60)
             {
-                document.getElementById("passError").innerText = "Parolanız 4 ila 60 karakter olmalıdır.";
+                document.getElementById("passError").innerText = "Password should be between 4 and 60 characters long.";
                 return false;
             }
             else

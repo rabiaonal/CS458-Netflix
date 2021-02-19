@@ -7,22 +7,22 @@
     </head>
     <body>
         <h1><a href="/" id="homebutton">NETFLIX</a> </h1>
-        <h2>Oturum Aç</h2>
+        <h2>Sign In</h2>
         <form action="/login" method="post" onsubmit="return checkSubmitError();">
             <div id="loginError" class="loginError"><%if(locals.alert)%><%=locals.message%></div>
             <div id="emailForm">
-                <input id="email" name="email" type= "text" placeholder= "E-posta veya telefon numarası" onfocusout="emailFocusOut()">
+                <input id="email" name="email" type= "text" placeholder= "E-mail or phone number" onfocusout="emailFocusOut()">
                 <div id="emailError" class="inputError" hidden></div>
             </div>
             <div id="passForm">
-                <input id="pass" name="pass" type= "password" placeholder="Parola" onfocusout="passFocusOut()">
+                <input id="pass" name="pass" type= "password" placeholder="Password" onfocusout="passFocusOut()">
                 <button id="passhideBtn" onclick="showHidePass()" type="button">&#128065</button>
                 <div id="passError" class="inputError" hidden ></div>
             </div>
-            <input id="loginSubmit" type="submit" value="Oturum Aç">
+            <input id="loginSubmit" type="submit" value="Sign In">
         </form>
-        <a id="signupLink" href="/signup">Şimdi kaydolun</a>
-        <a id="forgotpasswordLink" href="/forgotpassword">Şifremi unuttum</a>
+        <a id="signupLink" href="/signup">Sign Up Now</a>
+        <a id="forgotpasswordLink" href="/forgotpassword">Forgot Password</a>
 
         <script type="text/javascript">
 
@@ -41,13 +41,13 @@
             {
                 if (document.getElementById("email").value.length == 0)
                 {
-                    document.getElementById("emailError").innerText = "Lütfen geçerli bir telefon numarası veya e‑posta adresi girin.";
+                    document.getElementById("emailError").innerText = "Please enter valid e-mail or password.";
                     return false;
                 }
                 else if (document.getElementById("email").value.length < 5 || document.getElementById("email").value.length > 50)
                 {
-                    if (emailOrPhone(document.getElementById("email").value)) document.getElementById("emailError").innerText = "Lütfen geçerli bir e‑posta adresi girin.";
-                    else document.getElementById("emailError").innerText = "Lütfen geçerli bir telefon numarası girin.";
+                    if (emailOrPhone(document.getElementById("email").value)) document.getElementById("emailError").innerText = "Please enter a valid e-mail.";
+                    else document.getElementById("emailError").innerText = "Please enter a valid phone number.";
                     return false;
                 }
                 else
@@ -61,7 +61,7 @@
             {
                 if (document.getElementById("pass").value.length < 4 || document.getElementById("pass").value.length > 60)
                 {
-                    document.getElementById("passError").innerText = "Parolanız 4 ila 60 karakter olmalıdır.";
+                    document.getElementById("passError").innerText = "Password should be between 4 and 60 characters long.";
                     return false;
                 }
                 else

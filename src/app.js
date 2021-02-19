@@ -43,11 +43,11 @@ app.post('/signup', function (req, res)
     }
     else if(result.email != null)
     {
-        res.render('signup', { alert: true, message: "Bu e-posta ile ilişkilendirilmiş bir hesap zaten var. Lütfen oturum açmayı deneyin."});
+        res.render('signup', { alert: true, message: "This e-mail is already registered. Please try signing in."});
     }
     else
     {
-        res.render('signup', { alert: true, message: "Bu telefon numarası ile ilişkilendirilmiş bir hesap zaten var. Lütfen oturum açmayı deneyin."});
+        res.render('signup', { alert: true, message: "This phone number is already registered. Please try signing in."});
     }
 });
 
@@ -68,11 +68,11 @@ app.post('/login', function (req, res)
     }
     else if(result.status == UserMatchStatus.INVALID_PASSWORD)
     {
-        res.render('login', { alert: true, message: "Parola yanlış. Lütfen tekrar deneyin ya da parolanızı sıfırlayın."});
+        res.render('login', { alert: true, message: "Wrong password. Please try again or reset your password."});
     }
     else
     {
-        res.render('login', { alert: true, message: "Böyle bir hesap bulamadık. Lütfen kaydolmayı deneyin."});
+        res.render('login', { alert: true, message: "There is no such account. Please try signing up."});
     }
 });
 
