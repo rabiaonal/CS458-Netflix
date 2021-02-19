@@ -13,6 +13,13 @@ invalid_passwords = ["123", "xyz", "...", "0123456789012345678901234567890123456
 unregistered_passwords = ["invalidpassword1", "invalidpassword2", "invalidpassword3"]
 registered_passwords = ["329129293", "1234", "123123123"] #Should be sorted with respect to registered_emails
 
+def assertCheck(test_descriptor, input, expected):
+    try:
+        assert input == expected
+        print(test_descriptor, "Test Successful.", "Expected Result: ", expected)
+    except AssertionError:
+        print(test_descriptor, "Test Failed.", "Expected Result: ", expected)
+
 def index_page_sign_in_button_check():
     driver.get("http://localhost:3000/")
     driver.find_element_by_id("signInBtn").click()
@@ -23,15 +30,6 @@ def index_page_sign_up_button_check():
     driver.find_element_by_id("signUpBtn").click()
     assertCheck("Index page sign up button test", driver.current_url, "http://localhost:3000/signup")
 
-def assertCheck(test_descriptor, input, expected):
-    try:
-        assert input == expected
-        print(test_descriptor, "Test Successful.", "Expected Result: ", expected)
-    except AssertionError:
-        print(test_descriptor, "Test Failed.", "Expected Result: ", expected)
-
-def home_button_check():
-    pass
 def login_page_home_button_check():
     driver.get("http://localhost:3000/login")
     driver.find_element_by_id("homebutton").click()
@@ -60,7 +58,7 @@ def login_page_sign_up_link_check():
 def login_page_help_link_check():
     driver.get("http://localhost:3000/login")
     driver.find_element_by_id("forgotpasswordLink").click()
-    assertCheck("Login page help up link test", driver.current_url, "http://localhost:3000/forgotpassword")
+    assertCheck("Login page help up link test", driver.current_url, "http://localhost:3000/resetpass")
 
 def signup_page_login_link_check():
     driver.get("http://localhost:3000/signup")

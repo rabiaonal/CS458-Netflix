@@ -4,91 +4,136 @@
         <meta http-equiv="content-type" content="text/html;charset=utf-8">
         <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
         <title>Netflix</title>
+
+        <style>
+            * {
+                box-sizing: border-box;
+                font-family: arial;
+            }
+            .column {
+                float: left;
+                padding: 10px;
+                height: 500px;
+            }
+            .column.side {
+                width: 35%;
+            }
+            .column.middle {
+                width: 30%;
+                background-color: #3B3B3B;
+                border-radius: 8px;
+            }
+            .button {
+                background-color: #FF0000;
+                border: none;
+                color: white;
+                padding: 10px 20px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                margin: 4px 2px;
+                border-radius: 4px;
+                font-family: arial;
+                cursor: pointer;
+                width: 100%
+            }
+            .text-input{
+                padding: 8px 20px;
+                margin: 8px 0;
+                box-sizing: border-box;
+                background-color: #3B3B3B;
+                color: white;
+            }
+            .flex-container {
+                display: flex;
+                align-items: stretch;
+            }
+            .flex-container > button {
+                text-align: center;
+                margin: 7px 0px 7px 5px;
+                flex-grow:2
+            }
+        </style>
     </head>
     <body>
         <h1><a href="/" id="homebutton">NETFLIX</a> </h1>
-        <h2>Sign In</h2>
-        <form action="/login" method="post" onsubmit="return checkSubmitError();">
-            <div id="loginError" class="loginError"><%if(locals.alert)%><%=locals.message%></div>
-            <div id="emailForm">
-                <input id="email" name="email" type= "text" placeholder= "E-mail or phone number" onfocusout="emailFocusOut()">
-                <div id="emailError" class="inputError" hidden></div>
+        <div class="column side"></div>
+            <div class="column middle">
+                <h2 style="color:white">Sign In</h2>
+                <form action="/login" method="post" onsubmit="return checkSubmitError();">
+                    <div id="loginError" style="color:#939393" class="loginError"><%if(locals.alert)%><%=locals.message%></div>
+                    <div id="emailForm">
+                        <input id="email" class="text-input" style="width: 100%" name="email" type= "text" placeholder= "E-mail or phone number" onfocusout="emailFocusOut()">
+                        <div id="emailError" style="color:#939393" class="inputError" hidden></div>
+                    </div>
+                    <div id="passForm">
+                        <div class="flex-container">
+                            <input id="pass" name="pass" class="text-input" style="flex-grow:8" type= "password" placeholder="Password" onfocusout="passFocusOut()">
+                            <button id="passhideBtn" onclick="showHidePass()" type="button">&#128065</button>
+                        </div>
+                        <div id="passError" style="color:#939393" class="inputError" hidden ></div>
+                    </div>
+                    <input id="loginSubmit" class="button" type="submit" value="Sign In">
+                </form>
+
+                <p style="font-size:12px;text-align:right"><a id="forgotpasswordLink" style="color:white" href="/resetpass">Forgot Password</a><p>
+                <p style="color:#939393;font-size:16px;text-align:left">Do you want to join Netflix? <a id="signupLink" style="color:white" href="/signup">Sign Up Now</a></p>
             </div>
-            <div id="passForm">
-                <input id="pass" name="pass" type= "password" placeholder="Password" onfocusout="passFocusOut()">
-                <button id="passhideBtn" onclick="showHidePass()" type="button">&#128065</button>
-                <div id="passError" class="inputError" hidden ></div>
-            </div>
-            <input id="loginSubmit" type="submit" value="Sign In">
-        </form>
-        <a id="signupLink" href="/signup">Sign Up Now</a>
-        <a id="forgotpasswordLink" href="/forgotpassword">Forgot Password</a>
+            <div class="column side"></div>
 
-        <script type="text/javascript">
+            <script type="text/javascript">
 
-            function showHidePass()
-            {
-                pass = document.getElementById("pass");
-                pass.setAttribute('type', pass.getAttribute('type') === 'password' ? 'text' : 'password');
-            }
-
-            function emailOrPhone(input)
-            {
-                return /[^\d.+()]+/.test(input);
-            }
-
-            function checkEmailError()
-            {
-                if (document.getElementById("email").value.length == 0)
-                {
-                    document.getElementById("emailError").innerText = "Please enter valid e-mail or password.";
-                    return false;
+                function showHidePass(){
+                    pass = document.getElementById("pass");
+                    pass.setAttribute('type', pass.getAttribute('type') === 'password' ? 'text' : 'password');
                 }
-                else if (document.getElementById("email").value.length < 5 || document.getElementById("email").value.length > 50)
-                {
-                    if (emailOrPhone(document.getElementById("email").value)) document.getElementById("emailError").innerText = "Please enter a valid e-mail.";
-                    else document.getElementById("emailError").innerText = "Please enter a valid phone number.";
-                    return false;
+
+                function emailOrPhone(input){
+                    return /[^\d.+()]+/.test(input);
                 }
-                else
-                {
-                    document.getElementById("emailError").innerText = "";
-                    return true;
+
+                function checkEmailError(){
+                    if (document.getElementById("email").value.length == 0) {
+                        document.getElementById("emailError").innerText = "Please enter valid e-mail or password.";
+                        return false;
+                    }
+                    else if (document.getElementById("email").value.length < 5 || document.getElementById("email").value.length > 50) {
+                        if (emailOrPhone(document.getElementById("email").value)) document.getElementById("emailError").innerText = "Please enter a valid e-mail.";
+                        else document.getElementById("emailError").innerText = "Please enter a valid phone number.";
+                        return false;
+                    }
+                    else {
+                        document.getElementById("emailError").innerText = "";
+                        return true;
+                    }
                 }
-            }
 
-            function checkPassError()
-            {
-                if (document.getElementById("pass").value.length < 4 || document.getElementById("pass").value.length > 60)
-                {
-                    document.getElementById("passError").innerText = "Password should be between 4 and 60 characters long.";
-                    return false;
+                function checkPassError(){
+                    if (document.getElementById("pass").value.length < 4 || document.getElementById("pass").value.length > 60) {
+                        document.getElementById("passError").innerText = "Password should be between 4 and 60 characters long.";
+                        return false;
+                    }
+                    else {
+                        document.getElementById("passError").innerText = "";
+                        return true;
+                    }
                 }
-                else
-                {
-                    document.getElementById("passError").innerText = "";
-                    return true;
+
+                function checkSubmitError() {
+                    return checkEmailError() && checkPassError();
                 }
-            }
 
-            function checkSubmitError()
-            {
-                return checkEmailError() && checkPassError();
-            }
+                function emailFocusOut() {
+                    if (!checkEmailError()) document.getElementById("emailError").hidden = false;
+                }
 
-            function emailFocusOut()
-            {
-                if (!checkEmailError()) document.getElementById("emailError").hidden = false;
-            }
+                function passFocusOut() {
+                    if (!checkPassError()) document.getElementById("passError").hidden = false;
+                }
 
-            function passFocusOut()
-            {
-                if (!checkPassError()) document.getElementById("passError").hidden = false;
-            }
-
-            document.getElementById("email").oninput = checkEmailError;
-            document.getElementById("pass").oninput = checkPassError;
-
-        </script>
+                document.getElementById("email").oninput = checkEmailError;
+                document.getElementById("pass").oninput = checkPassError;
+            </script>
     </body>
 </html>

@@ -39,7 +39,7 @@ app.post('/signup', function (req, res)
         {
             if(err) throw err;
         });
-        res.redirect('home', { email: user.Email, phone: user.Phone });
+        res.render('home', { email: user.Email, phone: user.Phone });
     }
     else if(result.email != null)
     {
@@ -77,13 +77,13 @@ app.post('/login', function (req, res)
 });
 
 //Forgot password page
-app.get('/forgotpassword', function (req, res)
+app.get('/resetpass', function (req, res)
 {
-    res.render('forgotpassword', {message: ''});
+    res.render('resetpass', {message: ''});
 });
 
 app.listen(port, () => {
-    console.log(`Example app listening at http://localhost:${port}`)
+    console.log(`Web application listening at http://localhost:${port}`)
 });
 
 const UserMatchStatus = {
