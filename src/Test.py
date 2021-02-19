@@ -1,5 +1,7 @@
 import sys
 from selenium import webdriver
+from selenium.webdriver import ActionChains
+from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import SessionNotCreatedException, WebDriverException
 
 invalid_input = ""
@@ -135,6 +137,35 @@ def phone_check():
         results["registered"].append(assertCheck("Check registered phone test %d:" % (i+1), driver.find_element_by_tag_name("h1").get_attribute('innerHTML'), "Login Successful. Welcome " + registered_emails[i]))
     return results
 
+def keyboard_functionality_check():
+    results = { "enter": False, "copy": False }
+    action = ActionChains(driver)   #Keyboard actions
+
+    #Submit with Enter key test
+    driver.get(url_path + login_route)
+    driver.find_element_by_id("email").send_keys(registered_emails[0])
+    driver.find_element_by_id("pass").send_keys(registered_passwords[0])
+    driver.find_element_by_id("pass").send_keys(Keys.ENTER)
+    results["enter"] = assertCheck("Submit with enter key test %d:" % (1), driver.find_element_by_tag_name("h1").get_attribute('innerHTML'), "Login Successful. Welcome " + registered_emails[0])
+
+    #Copy, paste and select all keyboard shortcuts test (Ctrl + C, Ctrl + V, Ctrl + A)
+    driver.get(url_path + login_route)
+    driver.find_element_by_id("passhideBtn").click()
+    driver.find_element_by_id("pass").send_keys(registered_passwords[0])
+    action.key_down(Keys.CONTROL).send_keys("a").key_up(Keys.CONTROL).perform()
+    action.key_down(Keys.CONTROL).send_keys("c").key_up(Keys.CONTROL).perform()
+
+    driver.find_element_by_id("email").click()
+    action.key_down(Keys.CONTROL).send_keys("v").key_up(Keys.CONTROL).perform()
+
+    results["copy"] = assertCheck("Copy, paste and select all keyboard shortcuts test %d:" % (1), driver.find_element_by_id("email").get_attribute('value'), registered_passwords[0])
+    return results
+
+def consecutive_login_check():
+    for i in range(7):
+        login_script(unregistered_emails[0], None, unregistered_passwords[0])
+    return assertCheck("Check consecutive login fail %d:" % (1), driver.find_element_by_id("loginError").get_attribute('innerHTML'), "Sorry, something went wrong. Please try again later.")
+
 def compatibility_check():
     allsuccess = True
     if not res_spllc:
@@ -152,6 +183,12 @@ def compatibility_check():
     if not res_lppbc:
         allsuccess = False
         print("\t Login-page pass-hide button test failed!")
+    if not res_kfc["enter"]:
+        allsuccess = False
+        print("\t Enter keyboard functionality test failed!")
+    if not res_kfc["copy"]:
+        allsuccess = False
+        print("\t Copy&paste keyboard functionality test failed!")
     if not res_inc:
         allsuccess = False
         print("\t Invalid input test failed!")
@@ -191,8 +228,13 @@ def compatibility_check():
         if not res_pac["registered"][i]:
             allsuccess = False
             print("\t Registered password test %d failed!" % (i + 1))
+    if not res_clc:
+        allsuccess = False
+        print("\t Consecutive login test failed!")
     if allsuccess:
         print("\t All tests successfully passed!")
+    else:
+        print("\t All other tests successfully passed!")
 
 if len(sys.argv) < 2:
     print("Please specify a default driver: Chrome/Firefox/Opera")
@@ -243,10 +285,12 @@ for i in range(0, 3):
         res_lpsulc = login_page_sign_up_link_check()
         res_lphlc = login_page_help_link_check()
         res_lppbc = login_page_passhide_button_check()
+        res_kfc = keyboard_functionality_check()
         res_inc = input_check()
         res_emc = email_check()
         res_phc = phone_check()
         res_pac = pass_check()
+        res_clc = consecutive_login_check()
         driver.close()
         if driver_index == 0:
             print("Chrome compatibility test:")
