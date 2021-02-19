@@ -1,4 +1,7 @@
 /src/chromedriver.exe
+/src/geckodriver.exe
+/src/geckodriver.log
+/src/operadriver.exe
 /node_modules
 .vs
 .idea
