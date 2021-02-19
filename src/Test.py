@@ -146,6 +146,11 @@ def keyboard_functionality_check():
 
     assertCheck("Copy, paste and select all keyboard shortcuts test %d:" % (1), driver.find_element_by_id("email").get_attribute('value'), registered_passwords[0])
 
+def consecutive_login_check():
+    for i in range(7):
+        login_script(unregistered_emails[0], None, unregistered_passwords[0])
+    assertCheck("Check consecutive login fail %d:" % (1), driver.find_element_by_id("loginError").get_attribute('innerHTML'), "Sorry, something went wrong. Please try again later.")
+
 driver = webdriver.Chrome() #Change if another browser or driver to use!
 url_path = "http://localhost:3000/"
 login_route = "login"
@@ -160,6 +165,7 @@ email_check()
 phone_check()
 pass_check()
 keyboard_functionality_check()
+consecutive_login_check()
 
 driver.close()
 
